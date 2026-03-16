@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J'Bistro - Dashboard / Menu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-image: url('{{ url_for("static", filename="images/bg.png") }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+            color: #4a3c31; /* warm brown text */
+        }
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(245, 224, 194, 0.75); /* light beige overlay for readability */
+            z-index: 1;
+        }
+        .content {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+        }
+        .sidebar {
+            background: #d4a373; /* warm brown */
+            color: white;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+<body class="relative">
+
+    <div class="overlay"></div>
+
+    <div class="content flex flex-col min-h-screen">
+
+        <!-- Top Navbar -->
+        <nav class="bg-[#8d5524] text-white py-4 px-6 shadow-md flex items-center justify-between z-20">
+            <div class="flex items-center gap-3">
+                <img src="{{ url_for('static', filename='images/plogo.png') }}" alt="J'Bistro Logo" class="h-50 md:h-20">
+            </div>
+            <div class="flex items-center gap-8">
+                <a href="#" class="hover:underline">Our Menu</a>
+                <a href="#" class="hover:underline">About</a>
+                <a href="#" class="hover:underline">Cart</a>
+                <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 font-bold">
+                    👤
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content: Sidebar + Menu Grid -->
+        <div class="flex flex-1">
+            <!-- Left Sidebar -->
+            <aside class="sidebar w-64 py-8 px-6 hidden md:block">
+                <h2 class="text-xl font-bold mb-6">Categories</h2>
+                <ul class="space-y-4">
+                    <li><a href="#" class="block py-2 px-4 bg-[#a66c3c] rounded-lg">Main Course</a></li>
+                    <li><a href="#" class="block py-2 px-4 hover:bg-[#a66c3c] rounded-lg">Appetizers</a></li>
+                    <li><a href="#" class="block py-2 px-4 hover:bg-[#a66c3c] rounded-lg">Beverage</a></li>
+                </ul>
+            </aside>
+
+            <!-- Main Menu Area -->
+            <main class="flex-1 p-8">
+                <h1 class="text-4xl font-bold mb-8 text-center md:text-left">Main Course</h1>
+
+                <div class="menu-grid">
+                    <!-- Item 1 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/static/images/cheeseburger.png" alt="Cheesburger" class="w-full h-48 object-cover">
+                        <div class="p-4 text-center">
+                            <h3 class="font-bold text-lg">P60 Cheesburger</h3>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/static/images/cheesesandwich.png" alt="Cheese Sandwich" class="w-full h-48 object-cover">
+                        <div class="p-4 text-center">
+                            <h3 class="font-bold text-lg">P50 Cheese Sandwich</h3>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/static/images/chickenburger.png" alt="Chicken Burger" class="w-full h-48 object-cover">
+                        <div class="p-4 text-center">
+                            <h3 class="font-bold text-lg">P60 Chicken Burger</h3>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/static/images/spicychicken.png" alt="Spicy Chicken" class="w-full h-48 object-cover">
+                        <div class="p-4 text-center">
+                            <h3 class="font-bold text-lg">P99 Spicy Chicken</h3>
+                        </div>
+                    </div>
+
+                    <!-- Item 5 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/static/images/beefsteak.png" alt="Beef Steak" class="w-full h-48 object-cover">
+                        <div class="p-4 text-center">
+                            <h3 class="font-bold text-lg">P99 Beef Steak</h3>
+                        </div>
+                    </div>
+
+                    <!-- Item 6 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/static/images/salmonfillet.png" alt="Salmon Fillet" class="w-full h-48 object-cover">
+                        <div class="p-4 text-center">
+                            <h3 class="font-bold text-lg">P99 Salmon Fillet</h3>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
