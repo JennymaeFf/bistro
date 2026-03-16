@@ -1,60 +1,39 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 
-app = Flask(__name__,
-            template_folder='templates',
-            static_folder='static')
+app = Flask(__name__)
+CORS(app)
 
-app.secret_key = "jbistro-super-secret-2025"  # change this in production!
+users = {}  # replace with a real database later
 
-# Temporary "database" (just a dictionary for now — later use SQLite)
-users = {}  # email: password (plain text for now)
-
-@app.route('/')
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/api/login', methods=['POST'])
 def login():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
 
-        if email in users and users[email] == password:
-            session['user'] = email
-            flash('✅ Login successful! Welcome back.', 'success')
-            return redirect(url_for('dashboard'))
-        else:
-            flash('❌ Invalid email or password. Please register if you don’t have an account.', 'error')
+    if not email or not password:
+        return jsonify({'error': 'Please enter email and password.'}), 400
+    if email not in users or users[email] != password:
+        return jsonify({'error': 'Invalid email or password.'}), 401
 
-    return render_template('login.html')
+    return jsonify({'success': True, 'message': 'Login successful!'})
 
-
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/api/register', methods=['POST'])
 def register():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password')
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
 
-        if not email or not password or not confirm_password:
-            flash('Please fill in all fields.', 'error')
-        elif password != confirm_password:
-            flash('Passwords do not match. Please try again.', 'error')
-        elif len(password) < 6:
-            flash('Password must be at least 6 characters long.', 'error')
-        elif email in users:
-            flash('Email is already registered. Please try logging in.', 'error')
-        else:
-            users[email] = password  
-            flash('Registration successful! You can now log in.', 'success')
-            return redirect(url_for('login'))
+    if not email or not password:
+        return jsonify({'error': 'Fill all fields'}), 400
+    if len(password) < 6:
+        return jsonify({'error': 'Password too short (min 6 chars)'}), 400
+    if email in users:
+        return jsonify({'error': 'Email already registered'}), 400
 
-    return render_template('register.html')
-
-
-@app.route('/dashboard')
-def dashboard():
-    if 'user' not in session:
-        flash('You need to log in first!', 'error')
-        return redirect(url_for('login'))
-    return render_template('dashboard.html')
+    users[email] = password
+    return jsonify({'success': True, 'message': 'Registered! Go to login'})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)  
+    app.run(debug=True)

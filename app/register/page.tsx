@@ -1,17 +1,11 @@
 'use client';
 
-import { useActionState, useEffect } from 'react';
-import { loginAction } from '@/app/actions/auth';
-import { useRouter } from 'next/navigation';
+import { useActionState } from 'react';
+import { registerAction } from '@/app/actions/auth';
 import Image from 'next/image';
 
-export default function Home() {
-  const [state, formAction, pending] = useActionState(loginAction, null);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (state?.success) router.push('/dashboard');
-  }, [state]);
+export default function Register() {
+  const [state, formAction, pending] = useActionState(registerAction, null);
 
   return (
     <div className="relative min-h-screen w-full font-sans" style={{ overflowY: 'auto' }}>
@@ -28,7 +22,7 @@ export default function Home() {
           <p className="text-lg font-semibold uppercase text-white drop-shadow-lg">RESTAURANT</p>
 
           <h2 className="text-3xl md:text-4xl font-bold text-white drop-shadow-2xl mt-4">
-            Welcome to<br />J&apos;Bistro
+            Register to<br />J&apos;Bistro
           </h2>
 
           {/* Flash messages */}
@@ -40,24 +34,24 @@ export default function Home() {
             <form action={formAction} className="flex flex-col gap-5">
               <div className="flex flex-col text-left">
                 <label className="mb-1.5 text-lg font-medium text-gray-800">Email</label>
-                <input name="email" type="email" required
+                <input name="email" type="email" required placeholder="example@email.com"
                   className="rounded-xl border border-amber-700/50 bg-white/70 px-5 py-3.5 text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-600" />
               </div>
               <div className="flex flex-col text-left">
                 <label className="mb-1.5 text-lg font-medium text-gray-800">Password</label>
-                <input name="password" type="password" required
+                <input name="password" type="password" required placeholder="Minimum 6 characters"
                   className="rounded-xl border border-amber-700/50 bg-white/70 px-5 py-3.5 text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-600" />
               </div>
               <button type="submit" disabled={pending}
                 className="mt-3 rounded-xl bg-amber-800 py-3.5 px-10 text-xl font-bold text-white hover:bg-amber-900 transition disabled:opacity-60">
-                {pending ? 'Logging in...' : 'Login'}
+                {pending ? 'Registering...' : 'Register'}
               </button>
             </form>
           </div>
 
           <p className="mt-6 text-lg text-white">
-            Don&apos;t have an account?{' '}
-            <a href="/register" className="text-amber-300 underline hover:text-amber-200">Register here</a>
+            Do you already have an account?{' '}
+            <a href="/" className="text-amber-300 underline hover:text-amber-200">Login here</a>
           </p>
 
         </div>
